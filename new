@@ -1,0 +1,139 @@
+-- MySQL Workbench Forward Engineering
+
+SET @OLD_UNIQUE_CHECKS=@@UNIQUE_CHECKS, UNIQUE_CHECKS=0;
+SET @OLD_FOREIGN_KEY_CHECKS=@@FOREIGN_KEY_CHECKS, FOREIGN_KEY_CHECKS=0;
+SET @OLD_SQL_MODE=@@SQL_MODE, SQL_MODE='ONLY_FULL_GROUP_BY,STRICT_TRANS_TABLES,NO_ZERO_IN_DATE,NO_ZERO_DATE,ERROR_FOR_DIVISION_BY_ZERO,NO_ENGINE_SUBSTITUTION';
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+DROP SCHEMA IF EXISTS `mydb` ;
+
+-- -----------------------------------------------------
+-- Schema mydb
+-- -----------------------------------------------------
+CREATE SCHEMA IF NOT EXISTS `mydb` DEFAULT CHARACTER SET utf8 ;
+USE `mydb` ;
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Department`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Department` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Department` (
+  `deptName` VARCHAR(45) NOT NULL,
+  `headId` INT NOT NULL,
+  PRIMARY KEY (`deptName`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Teachers`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Teachers` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Teachers` (
+  `idTeachers` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
+  `Department_deptName` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idTeachers`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Courses`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Courses` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Courses` (
+  `idCourses` INT NOT NULL AUTO_INCREMENT,
+  `unit` INT UNSIGNED NULL,
+  `finalExamTime` DATETIME NULL,
+  `class` VARCHAR(45) NULL,
+  `subject` VARCHAR(45) NULL,
+  `time` TIME NULL,
+  `day` VARCHAR(45) NULL,
+  PRIMARY KEY (`idCourses`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Student`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Student` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Student` (
+  `idStudent` INT NOT NULL AUTO_INCREMENT,
+  `Name` VARCHAR(45) NULL,
+  `Department_deptName` VARCHAR(45) NOT NULL,
+  PRIMARY KEY (`idStudent`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`CourseOffering`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`CourseOffering` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`CourseOffering` (
+  `idCourseOffering` INT NOT NULL AUTO_INCREMENT,
+  `start` DATETIME NULL,
+  `finish` DATETIME NULL,
+  `Department_deptName` VARCHAR(45) NULL,
+  PRIMARY KEY (`idCourseOffering`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Teachers_has_Courses`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Teachers_has_Courses` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Teachers_has_Courses` (
+  `Teachers_idTeachers` INT NOT NULL,
+  `Courses_idCourses` INT NOT NULL,
+  PRIMARY KEY (`Teachers_idTeachers`, `Courses_idCourses`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Courses_has_Student`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Courses_has_Student` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Courses_has_Student` (
+  `Courses_idCourses` INT NOT NULL,
+  `Student_idStudent` INT NOT NULL,
+  `absences` INT ZEROFILL NULL,
+  `FinalScore` FLOAT ZEROFILL NULL,
+  PRIMARY KEY (`Student_idStudent`, `Courses_idCourses`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`Department_has_Courses`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`Department_has_Courses` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`Department_has_Courses` (
+  `Department_deptName` VARCHAR(45) NOT NULL,
+  `Courses_idCourses` INT NOT NULL,
+  PRIMARY KEY (`Department_deptName`, `Courses_idCourses`))
+ENGINE = InnoDB;
+
+
+-- -----------------------------------------------------
+-- Table `mydb`.`CourseOffering_has_Courses`
+-- -----------------------------------------------------
+DROP TABLE IF EXISTS `mydb`.`CourseOffering_has_Courses` ;
+
+CREATE TABLE IF NOT EXISTS `mydb`.`CourseOffering_has_Courses` (
+  `CourseOffering_idCourseOffering` INT NOT NULL,
+  `Courses_idCourses` INT NOT NULL,
+  PRIMARY KEY (`CourseOffering_idCourseOffering`, `Courses_idCourses`))
+ENGINE = InnoDB;
+
+
+SET SQL_MODE=@OLD_SQL_MODE;
+SET FOREIGN_KEY_CHECKS=@OLD_FOREIGN_KEY_CHECKS;
+SET UNIQUE_CHECKS=@OLD_UNIQUE_CHECKS;
